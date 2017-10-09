@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/afs/csail.mit.edu/u/c/camato/REPOS/ML_repo/!svn/ver/78/Week5/HW2/HW2_handout/data
+END
+data_nls.csv
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/afs/csail.mit.edu/u/c/camato/REPOS/ML_repo/!svn/ver/78/Week5/HW2/HW2_handout/data/data_nls.csv
+END
+data_ls.csv
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/afs/csail.mit.edu/u/c/camato/REPOS/ML_repo/!svn/ver/78/Week5/HW2/HW2_handout/data/data_ls.csv
+END
+data_nls_validate.csv
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/afs/csail.mit.edu/u/c/camato/REPOS/ML_repo/!svn/ver/78/Week5/HW2/HW2_handout/data/data_nls_validate.csv
+END
+data_nonlin_validate.csv
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/afs/csail.mit.edu/u/c/camato/REPOS/ML_repo/!svn/ver/78/Week5/HW2/HW2_handout/data/data_nonlin_validate.csv
+END
+data_ls_validate.csv
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/afs/csail.mit.edu/u/c/camato/REPOS/ML_repo/!svn/ver/78/Week5/HW2/HW2_handout/data/data_ls_validate.csv
+END
+data_nls_train.csv
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/afs/csail.mit.edu/u/c/camato/REPOS/ML_repo/!svn/ver/78/Week5/HW2/HW2_handout/data/data_nls_train.csv
+END
+data_nonlin_train.csv
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/afs/csail.mit.edu/u/c/camato/REPOS/ML_repo/!svn/ver/78/Week5/HW2/HW2_handout/data/data_nonlin_train.csv
+END
+data_ls_train.csv
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/afs/csail.mit.edu/u/c/camato/REPOS/ML_repo/!svn/ver/78/Week5/HW2/HW2_handout/data/data_ls_train.csv
+END
