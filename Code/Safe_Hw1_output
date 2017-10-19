@@ -1,0 +1,215 @@
+
+
+gamma is 0.01
+For dataset A
+Values from dual form {'theta': [-2.7643811087719947, 3.3847905710286579]}
+Hits :- 796
+Misses :- 4
+Total :- 800
+Accuracy is 99.5%
+Values from primal form {'theta_X': -0.7486068346136135, 'theta_Y': 0.3266847319302115}
+Hits :- 772
+Misses :- 28
+Total :- 800
+Accuracy is 96.5%
+400
+
+
+gamma is 0.1
+For dataset A
+Values from dual form {'theta': [-2.7643811087614214, 3.3847905710127231]}
+Hits :- 796
+Misses :- 4
+Total :- 800
+Accuracy is 99.5%
+Values from primal form {'theta_X': -1.1929043383298603, 'theta_Y': 1.246582187256845}
+Hits :- 796
+Misses :- 4
+Total :- 800
+Accuracy is 99.5%
+
+
+
+gamma is 1
+For dataset A
+Values from dual form {'theta': [-1.9434663601647042, 2.5783461656184423]}
+Hits :- 797
+Misses :- 3
+Total :- 800
+Accuracy is 99.625%
+Values from primal form {'theta_X': -1.6858861147661965, 'theta_Y': 2.1827859871827324}
+Hits :- 797
+Misses :- 3
+Total :- 800
+Accuracy is 99.625%
+400
+
+
+gamma is 10
+For dataset A
+Values from dual form {'theta': [0.0, 0.0]}
+Hits :- 400
+Misses :- 400
+Total :- 800
+Accuracy is 50.0%
+Values from primal form {'theta_X': -2.524043240168648, 'theta_Y': 3.067679251822215}
+Hits :- 796
+Misses :- 4
+Total :- 800
+Accuracy is 99.5%
+400
+
+gamma is 100
+For dataset A
+Values from dual form {'theta': [0.0, 0.0]}
+Hits :- 400
+Misses :- 400
+Total :- 800
+Accuracy is 50.0%
+Values from primal form {'theta_X': -3.0452111321971658, 'theta_Y': 3.7286472166645854}
+Hits :- 796
+Misses :- 4
+Total :- 800
+Accuracy is 99.5%
+400
+
+
+
+gamma is 0.01
+For dataset B
+Values from dual form {'theta': [-0.85096936486919095, 1.4156818113403242]}
+Hits :- 665
+Misses :- 135
+Total :- 800
+Accuracy is 83.125%
+Values from primal form {'theta_X': -0.1939662021975144, 'theta_Y': 0.6856929531643159}
+Hits :- 710
+Misses :- 90
+Total :- 800
+Accuracy is 88.75%
+
+
+gamma is 0.1
+For dataset B
+Values from dual form {'theta': [-0.85096936478299856, 1.4156818108122651]}
+Hits :- 665
+Misses :- 135
+Total :- 800
+Accuracy is 83.125%
+Values from primal form {'theta_X': -0.2801230092735312, 'theta_Y': 1.2030214585715893}
+Hits :- 711
+Misses :- 89
+Total :- 800
+Accuracy is 88.875%
+
+
+gamma is 1
+For dataset B
+Values from dual form {'theta': [-0.84091143452701445, 1.3896707451600212]}
+Hits :- 665
+Misses :- 135
+Total :- 800
+Accuracy is 83.125%
+Values from primal form {'theta_X': -0.34193883889544385, 'theta_Y': 1.51121894904954}
+Hits :- 713
+Misses :- 87
+Total :- 800
+Accuracy is 89.125%
+
+gamma is 10
+For dataset B
+Values from dual form {'theta': [0.0, 0.0]}
+Hits :- 400
+Misses :- 400
+Total :- 800
+Accuracy is 50.0%
+Values from primal form {'theta_X': -0.35098974270774674, 'theta_Y': 1.5631965940246189}
+Hits :- 713
+Misses :- 87
+Total :- 800
+Accuracy is 89.125%
+
+
+gamma is 100
+For dataset B
+Values from dual form {'theta': [0.0, 0.0]}
+Hits :- 400
+Misses :- 400
+Total :- 800
+Accuracy is 50.0%
+Values from primal form {'theta_X': -0.3557443193191478, 'theta_Y': 1.570282210277934}
+Hits :- 713
+Misses :- 87
+Total :- 800
+Accuracy is 89.125%
+400
+
+
+gamma is 0.01
+For dataset C
+Values from dual form {'theta': [-0.10330607036888169, -2.6558335535399622]}
+Hits :- 645
+Misses :- 155
+Total :- 800
+Accuracy is 80.625%
+Values from primal form {'theta_X': -0.17235755969337743, 'theta_Y': -0.6956220619023573}
+Hits :- 598
+Misses :- 202
+Total :- 800
+Accuracy is 74.75%
+
+
+gamma is 0.1
+For dataset C
+Values from dual form {'theta': [-0.1033060705188449, -2.6558335530772972]}
+Hits :- 645
+Misses :- 155
+Total :- 800
+Accuracy is 80.625%
+Values from primal form {'theta_X': -0.04860858060208564, 'theta_Y': -1.567674304891173}
+Hits :- 648
+Misses :- 152
+Total :- 800
+Accuracy is 81.0%
+
+
+gamma is 1
+For dataset C
+Values from dual form {'theta': [-0.11933243849778954, -2.5415402272135763]}
+Hits :- 643
+Misses :- 157
+Total :- 800
+Accuracy is 80.375%
+Values from primal form {'theta_X': -0.004412860240710026, 'theta_Y': -2.0088805796235283}
+Hits :- 654
+Misses :- 146
+Total :- 800
+Accuracy is 81.75%
+
+
+gamma is 10
+For dataset C
+Values from dual form {'theta': [0.0, 0.0]}
+Hits :- 400
+Misses :- 400
+Total :- 800
+Accuracy is 50.0%
+Values from primal form {'theta_X': -0.009018444824782637, 'theta_Y': -2.039375876003221}
+Hits :- 655
+Misses :- 145
+Total :- 800
+Accuracy is 81.875%
+
+
+gamma is 100
+For dataset C
+Values from dual form {'theta': [0.0, 0.0]}
+Hits :- 400
+Misses :- 400
+Total :- 800
+Accuracy is 50.0%
+Values from primal form {'theta_X': -0.006572426059525434, 'theta_Y': -2.0474365497227223}
+Hits :- 655
+Misses :- 145
+Total :- 800
+Accuracy is 81.875%

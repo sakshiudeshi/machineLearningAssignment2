@@ -1,12 +1,11 @@
-#!/usr/bin/env python
+## Adding RBF kernels
 import csv
 import matplotlib.pyplot as plt
 from matplotlib import style
-import numpy as np
 style.use('ggplot')
 from gurobipy import *
-import math
-import matplotlib.gridspec as gridspec
+import numpy as np
+from numpy import *
 
 
 def csv_reader(file_obj):
@@ -15,6 +14,9 @@ def csv_reader(file_obj):
     for row in reader:
         data.append(" ".join(row))
     return data
+
+def rbf(va, vb, sigma):
+    return exp(-sigma * linalg.norm(va - vb) ** 2)
 
 
 def sanitize(path):
@@ -43,10 +45,8 @@ def vectorise(path):
     return data_dict
 
 
-def plot_dict(data_dict, theta_X, theta_Y, gamma, dataset, i, j):
+def plot_dict(data_dict, theta_X, theta_Y, gamma, dataset):
     colors = list("rb")
-
-    # gs = gridspec.GridSpec(3, 5)
 
     for arr in data_dict.values():
         (x, y) = arr.T
@@ -65,13 +65,11 @@ def plot_dict(data_dict, theta_X, theta_Y, gamma, dataset, i, j):
         y_points_pos.append(-m*x_point + b)
 
     plt.plot(y_points, x_points, 'g')
-    plt.title('Lambda ' + str(gamma) + " Dataset " + dataset)
+    plt.title('Gamma ' + str(gamma) + " Dataset " + dataset)
     plt.plot(y_points_neg, x_points,linestyle='dotted', color='green')
     plt.plot(y_points_pos, x_points, linestyle='dotted', color='green')
-    filename = "Plot" + str(i)
-    # plt.subplot(gs[i, j])
-    plt.clf()
 
+    plt.show()
 
 
 
@@ -112,7 +110,7 @@ def solve_primal(data_set, gamma):
 
 
 
-def solve_dual(X, Y, gamma):
+def solve_dual(X, Y, gamma, sigma):
     m = Model("qp")
 
     a = []
@@ -127,16 +125,16 @@ def solve_dual(X, Y, gamma):
     a = np.asarray(a)
 
     a_sum = QuadExpr()
-    kerX = [[0 for x in range(N)] for y in range(N)]
-    for i in xrange(N):
-        for j in xrange(N):
-            kerX[i][j] = np.dot(X[i], X[j])
+    # kerX = [[0 for x in range(N)] for y in range(N)]
+    # for i in xrange(N):
+    #     for j in xrange(N):
+    #         kerX[i][j] = np.dot(X[i], X[j])
 
     for i in xrange(N):
         # print('i:', i)
         for j in xrange(N):
             # print (i, j)
-            a_sum.add(a[i]*a[j] * kerX[i][j] * Y[i] * Y[j])
+            a_sum.add(a[i]*a[j] * rbf(X[i], X[j], sigma) * Y[i] * Y[j])
 
     m.setObjective(quicksum(a) - 0.5 * a_sum , GRB.MAXIMIZE)
 
@@ -145,18 +143,13 @@ def solve_dual(X, Y, gamma):
     sum = 0
     for i in xrange(N):
         sum = sum + Y[i]*a[i]
-        #abs(sum - 0) < 1e-5
     print type(sum)
     m.addConstr(sum == 0)
 
     m.update()
     m.write('Hw1_dual.lp')
-    #m.printStats()
     m.optimize()
 
-
-    # theta = [0, 0]
-    # for i in xrange(N):
 
     results = {}
     theta_X = 0;
@@ -174,16 +167,18 @@ def solve_dual(X, Y, gamma):
 
 
 
-def sign(theta_X, theta_Y, item):
-    if theta_X * item[0] + theta_Y * item[1] > 0:
+def sign(theta_X, theta_Y, item, sigma):
+    if rbf(np.asarray([theta_X, theta_Y]), np.asarray([item[0], item[1]]), sigma) > 0:
         return 1
     else: return -1
 
 
-def predict(test_data_set, theta_X, theta_Y):
+def predict(test_data_set, theta_X, theta_Y, sigma):
     hits = 0
+
     for item in test_data_set:
-        if (sign(theta_X, theta_Y, item)) == item[2]:
+        print (sign(theta_X, theta_Y, item, sigma))
+        if (sign(theta_X, theta_Y, item, sigma)) == item[2]:
             hits = hits + 1
 
     print "Hits :- " + str(hits)
@@ -191,55 +186,64 @@ def predict(test_data_set, theta_X, theta_Y):
     print "Total :- " + str(len(test_data_set))
     print "Accuracy is " + str(float(hits)/float(len(test_data_set)) * 100) + "%"
 
-    return float(hits)/float(len(test_data_set)) * 100
+
+def xfrange(start, stop, step):
+    i = 0
+    while start + i * step < stop:
+        yield start + i * step
+        i += 1
+
+
 
 
 if __name__ == '__main__':
     DATASETS = ["C"]
-    gammas = [0.01, 0.1, 1, 10, 100, 1000, 10000]
-    filename_template = "Plot{0:02d}.png"
-    i = 0;
+    gammas = [1]
 
-    gamm_acc = []
+    #A use sigma = 2.19
+    #B use sigma = 0.92
+    #C use sigma = 4.2
+
+    sigmas = [4.2]
 
     for DATASET in DATASETS:
-        j = 0
         for gamma in gammas:
-            train_path = os.getcwd() + "/data/" + DATASET + "/train.csv"
-            test_path = os.getcwd() + "/data/" + DATASET + "/test.csv"
-            train_data_dict = vectorise(train_path)
-            train_data_set = sanitize(train_path)
-            test_data_set = sanitize(test_path)
-            test_data_dict = vectorise(test_path)
+            for sigma in sigmas:
+                train_path = os.getcwd() + "/data/" + DATASET + "/train.csv"
+                test_path = os.getcwd() + "/data/" + DATASET + "/test.csv"
+                train_data_dict = vectorise(train_path)
+                train_data_set = sanitize(train_path)
+                test_data_set = sanitize(test_path)
+                test_data_dict = vectorise(test_path)
 
-            X_train = []
-            Y_train = []
-            for item in train_data_set:
-                X_train.append([item[0], item[1]])
-                Y_train.append(item[2])
+                X_train = []
+                Y_train = []
+                for item in train_data_set:
+                    X_train.append([item[0], item[1]])
+                    Y_train.append(item[2])
 
-            X_test = []
-            Y_test = []
-            for item in train_data_set:
-                X_test.append([item[0], item[1]])
-                Y_test.append(item[2])
+                X_test = []
+                Y_test = []
+                for item in train_data_set:
+                    X_test.append([item[0], item[1]])
+                    Y_test.append(item[2])
 
-            # dual_dict = solve_dual(np.asarray(X_train), np.asarray(Y_train), gamma)
-            primal_dict = solve_primal(train_data_set, gamma)
 
-            print "lambda is " + str(gamma)
-            print "For dataset " + DATASET
-            # print "Values from dual form " + str(dual_dict)
-            # predict(test_data_set, dual_dict['theta'][0], dual_dict['theta'][1])
-            print "Values from primal form " + str(primal_dict)
-            acc = predict(test_data_set, primal_dict['theta_X'], primal_dict['theta_Y'])
-            gamm_acc.append(acc)
 
-            print "i, j :" + str(i) + " " + str(j)
-            # plot_dict(train_data_dict, primal_dict['theta_X'], primal_dict['theta_Y'], gamma, DATASET, i, j)
 
-            j = j + 1
-        i = i + 1
 
-        print gamm_acc
+                dual_dict = solve_dual(np.asarray(X_train), np.asarray(Y_train), gamma, sigma)
+                print "gamma is " + str(gamma)
+                print "sigma is " + str(sigma)
+
+                print "For dataset " + DATASET
+                print "Values from dual form " + str(dual_dict)
+
+                predict(test_data_set, dual_dict['theta'][0], dual_dict['theta'][1], sigma)
+
+                # primal_dict = solve_primal(train_data_set, gamma)
+                # print "Values from primal form " + str(primal_dict)
+                # predict(test_data_set, primal_dict['theta_X'], primal_dict['theta_Y'])
+
+                # plot_dict(train_data_dict, primal_dict['theta_X'], primal_dict['theta_Y'], gamma, DATASET)
 

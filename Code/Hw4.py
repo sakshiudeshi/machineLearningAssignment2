@@ -1,4 +1,5 @@
-## adding regularization term
+## Stochastic gradient descent
+
 
 import csv
 import matplotlib.pyplot as plt
@@ -32,10 +33,10 @@ def sanitize(path):
 def sigmoid(score):
     return (1 / (1 + np.exp(-1*score)))
 
-def cost(theta, X, y, gamma):
-    sxt = sigmoid(np.dot(X, theta));
-    mcost = (y)*np.log(sxt) + (1-y)*np.log(1-sxt)
-    return mcost.mean() + gamma*np.dot(theta, theta)
+def cost(theta, X, y):
+    sxt = sigmoid(y*np.dot(X, theta));
+    mcost = 1 + np.exp(sxt)
+    return log(mcost.mean())
 
 def gradient(theta, X, y):
     sxt = sigmoid(np.dot(X, theta))
@@ -46,21 +47,18 @@ def gradient(theta, X, y):
 
 
 def log_reg(learning_rate, Y, X, gamma, conv):
-    theta = 0.1* np.random.randn(2);
-    # theta = np.zeros(2)
-    i = 0
+    theta = theta = 0.1* np.random.randn(2);
     while(True):
         print "theta is " + str(theta)
 
         d = gradient(theta, X, Y)
         print "delta is " + str(d)
-        old_cost = cost(theta, X, Y, gamma)
+        old_cost = cost(theta, X, Y)
         theta = np.subtract(theta, learning_rate*d)
-        cur_cost = cost(theta, X, Y, gamma)
+        cur_cost = cost(theta, X, Y)
         print "Abs Cost diff is " + str(abs(old_cost - cur_cost))
-        if (abs(old_cost - cur_cost) < conv or i > 10000):
+        if (abs(old_cost - cur_cost) < conv):
             break
-        i = i + 1
         # print "obj is " + str(obj(theta, X, Y))
 
     return theta
@@ -93,37 +91,28 @@ def predict(test_data_set, theta_X, theta_Y):
     print "Misses :- " + str(len(test_data_set) - hits)
     print "Total :- " + str(len(test_data_set))
     print "Accuracy is " + str(float(hits)/float(len(test_data_set)) * 100) + "%"
-    return float(hits)/float(len(test_data_set)) * 100
 
 
 if __name__ == '__main__':
-    DATASET = "A"
-    gammas = [0.001, 0.01, 0.1, 1, 10, 100, 1000]
+    DATASET = "B"
+    gamma = 1
     learning_rate = 0.001
     conv = 0.0001
 
-    accs = []
-    costs = []
+    train_path = os.getcwd() + "/data/" + DATASET + "/train.csv"
+    test_path = os.getcwd() + "/data/" + DATASET + "/test.csv"
+    train_data_dict = vectorise(train_path)
+    train_data_set = sanitize(train_path)
+    test_data_set = sanitize(test_path)
+    test_data_dict = vectorise(test_path)
+    X_train = []
+    Y_train = []
+    for data in train_data_set:
+        X_train.append([data[0], data[1]])
+        Y_train.append(data[2])
 
-    for gamma in gammas:
-        train_path = os.getcwd() + "/data/" + DATASET + "/train.csv"
-        test_path = os.getcwd() + "/data/" + DATASET + "/test.csv"
-        train_data_dict = vectorise(train_path)
-        train_data_set = sanitize(train_path)
-        test_data_set = sanitize(test_path)
-        test_data_dict = vectorise(test_path)
-        X_train = []
-        Y_train = []
-        for data in train_data_set:
-            X_train.append([data[0], data[1]])
-            Y_train.append(data[2])
+    theta = log_reg(learning_rate, np.asarray(Y_train), np.asarray(X_train), gamma, conv)
+    print "Final theta is " + str(theta)
+    predict(test_data_set, theta[0], theta[1])
 
-        theta = log_reg(learning_rate, np.asarray(Y_train), np.asarray(X_train), gamma, conv)
-        print "Final theta is " + str(theta)
-        acc = predict(test_data_set, theta[0], theta[1])
-        accs.append(acc)
-        costs.append(cost(theta, np.asarray(X_train), np.asarray(Y_train), gamma))
-
-    print accs
-    print costs
     # plot_dict(train_data_dict, 8.2074795747618232, -4.926031566883299, gamma, DATASET)
